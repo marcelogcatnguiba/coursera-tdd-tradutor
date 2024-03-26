@@ -8,8 +8,7 @@ namespace CourseraTDD.Tests.Entities
         internal string Traduzir(string palavra)
         {
             TradutorException
-                .Quando(_dicTraducoes.ContainsKey(palavra) is false, "Palavra não existe tradução");
-
+                .Quando(_dicTraducoes.NotContainsKey(palavra), "Palavra não existe tradução");
             return _dicTraducoes[palavra];
         }
 
@@ -32,23 +31,22 @@ namespace CourseraTDD.Tests.Entities
         internal string TraduzirFrase(string frase)
         {
             var fraseTraduzida = "";
-            var palavrasFrase = frase.Split(" ");
+            var palavraDaFrase = frase.Split(" ");
 
-            for (int i = 0; i < palavrasFrase.Length; i++)
+            for (int i = 0; i < palavraDaFrase.Length; i++)
             {
-                var traducao = Traduzir(palavrasFrase[i]);
-                if (traducao.Contains(','))
-                    fraseTraduzida += PrimeiraTraducao(traducao);
-                else
-                    fraseTraduzida += traducao + " ";
+                var traducao = Traduzir(palavraDaFrase[i]);
+                fraseTraduzida += PrimeiraTraducao(temVariasTraducoes: traducao.Contains(','), traducao) + " ";
             }
 
             return fraseTraduzida.Trim();
         }
 
-        private string PrimeiraTraducao(string traducao)
+        private string PrimeiraTraducao(bool temVariasTraducoes, string traducao)
         {
-            return traducao[..traducao.IndexOf(',')];
+            if (temVariasTraducoes)
+                return traducao[..traducao.IndexOf(',')];
+            return traducao;
         }
     }
 }
