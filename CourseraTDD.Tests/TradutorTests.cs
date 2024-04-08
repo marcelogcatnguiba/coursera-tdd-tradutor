@@ -14,9 +14,9 @@ public class TradutorTests
     [Fact]
     public void DeveAdicionarUmaTraducao()
     {
-        bool result = _tradutor.AdicionaTraducao(palavra: "bom", traducao: "good");
+        _tradutor.AdicionaTraducao(palavra: "bom", traducao: "good");
 
-        Assert.True(result);
+        Assert.Equal("good", _tradutor.Traduzir("bom"));
     }
 
     [Fact]

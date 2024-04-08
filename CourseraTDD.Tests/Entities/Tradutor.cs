@@ -9,23 +9,22 @@ namespace CourseraTDD.Tests.Entities
         {
             TradutorException
                 .Quando(_dicTraducoes.NotContainsKey(palavra), "Palavra não existe tradução");
+
             return _dicTraducoes[palavra];
         }
 
-        internal bool AdicionaTraducao(string palavra, string traducao)
+        internal void AdicionaTraducao(string palavra, string traducao)
         {
-            try
+            if (_dicTraducoes.ContainsKey(palavra))
             {
-                if (_dicTraducoes.ContainsKey(palavra))
-                    _dicTraducoes[palavra] += ',' + traducao;
+                _dicTraducoes[palavra] += ',' + traducao;
 
-                _dicTraducoes.Add(palavra, traducao);
-                return true;
             }
-            catch
+            else
             {
-                return false;
+                _dicTraducoes.Add(palavra, traducao);
             }
+
         }
 
         internal string TraduzirFrase(string frase)
